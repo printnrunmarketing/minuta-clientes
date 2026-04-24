@@ -294,12 +294,14 @@ export default function App() {
     }
   };
 
-  const generateShareLink = async () => {
-    const slug = await saveChanges();
-    if (!slug) return;
-    const baseUrl = window.location.href.split("?")[0];
-    setShareLink(`${baseUrl}?client=true&slug=${encodeURIComponent(slug)}`);
-  };
+ const generateShareLink = async () => {
+  const slug = await saveChanges();
+  if (!slug) return;
+
+  const baseUrl = "https://seguimiento-printn-run.vercel.app";
+
+  setShareLink(`${baseUrl}?client=true&slug=${encodeURIComponent(slug)}`);
+};
 
   const showSummary = section === "resumen" || section === "detalle" || clientMode;
   const showProducts = section === "productos" || section === "galeria" || section === "resumen" || clientMode;
