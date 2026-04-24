@@ -427,7 +427,6 @@ if (isLoading) {
         />
       </label>
                    </div>
-              )}
             </aside>
 
           <main className="space-y-5">
