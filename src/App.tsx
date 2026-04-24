@@ -426,8 +426,10 @@ if (isLoading) {
           className="mt-2 block w-full text-sm"
         />
       </label>
-    </div>
-</aside>
+                   </div>
+              )}
+            </aside>
+
           <main className="space-y-5">
             {connectionError && !isClientLink && <div className="rounded-2xl border border-[#F2C2B8] bg-[#FFF3EF] p-4 text-sm font-semibold text-[#A13B2A]">{connectionError}</div>}
             <header className="rounded-2xl border border-[#DED5C8] bg-white p-6 md:p-8">
