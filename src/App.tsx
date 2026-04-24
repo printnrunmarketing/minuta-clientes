@@ -325,24 +325,112 @@ export default function App() {
   </div>
 
   <nav className="space-y-2">
-    {[["resumen", "Resumen general"], ["detalle", "Vista detallada"], ["productos", "Productos"], ["pasos", "Próximos pasos"], ["galeria", "Galería"]].map(([id, label]) => (
-      <button
-        key={id}
-        onClick={() => setSection(id)}
-        className={`w-full rounded-xl px-4 py-4 text-left font-medium ${
-          section === id ? "bg-[#2EA6A4] text-white" : "text-[#314248] hover:bg-[#F5F2EC]"
-        }`}
-      >
-        {label}
-      </button>
-    ))}
-  </nav>
+  {[
+    ["resumen", "Resumen general"],
+    ["detalle", "Vista detallada"],
+    ["productos", "Productos"],
+    ["pasos", "Próximos pasos"],
+    ["galeria", "Galería"],
+  ].map(([id, label]) => (
+    <button
+      key={id}
+      onClick={() => setSection(id)}
+      className={`w-full rounded-xl px-4 py-4 text-left font-medium ${
+        section === id
+          ? "bg-[#2EA6A4] text-white"
+          : "text-[#314248] hover:bg-[#F5F2EC]"
+      }`}
+    >
+      {label}
+    </button>
+  ))}
+</nav>
 
-  {!isClientLink && (
-    <div className="mt-auto space-y-4 rounded-2xl border-2 border-dashed border-[#8CCFCD] bg-[#FAFCFB] p-5 text-center">
-      ...
+{!isClientLink && (
+  <div className="mt-auto space-y-4 rounded-2xl border-2 border-dashed border-[#8CCFCD] bg-[#FAFCFB] p-5 text-center">
+    <div className="font-medium text-[#0B6672]">Minuta editable</div>
+    <div className="text-xs text-[#6B767B]">Cliente: {currentSlug}</div>
+
+    <button
+      onClick={saveChanges}
+      disabled={isSaving}
+      className="w-full rounded-xl bg-[#2EA6A4] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
+    >
+      {isSaving ? "Guardando..." : "Guardar cambios"}
+    </button>
+
+    <button
+      onClick={exportMinuta}
+      className="w-full rounded-xl border border-[#2EA6A4] bg-white px-4 py-3 text-sm font-semibold text-[#2EA6A4]"
+    >
+      Exportar minuta
+    </button>
+
+    <button
+      onClick={() => setClientMode((prev) => !prev)}
+      className="w-full rounded-xl border border-[#D8D0C2] bg-white px-4 py-3 text-sm font-semibold text-[#32434A]"
+    >
+      {clientMode ? "Volver a edición" : "Modo cliente"}
+    </button>
+
+    <button
+      onClick={generateShareLink}
+      disabled={isSaving}
+      className="w-full rounded-xl bg-[#083E48] px-4 py-3 text-sm font-semibold text-white disabled:opacity-60"
+    >
+      Generar link para cliente
+    </button>
+
+    {shareLink && (
+      <div className="rounded-2xl border border-[#8CCFCD] bg-white p-3 text-left">
+        <div className="mb-2 text-xs font-semibold text-[#0B6672]">
+          Link cliente generado
+        </div>
+        <textarea
+          readOnly
+          value={shareLink}
+          onFocus={(e) => e.currentTarget.select()}
+          className="h-24 w-full rounded-xl border border-[#D9D3CA] p-2 text-xs outline-none"
+        />
+        <div className="mt-1 text-[11px] text-[#6B767B]">
+          Haz clic dentro del cuadro, selecciona y copia manualmente.
+        </div>
+      </div>
+    )}
+
+    {lastSavedAt && (
+      <div className="text-xs text-[#6B767B]">Guardado: {lastSavedAt}</div>
+    )}
+
+    <div className="space-y-3 text-left">
+      <label className="block text-sm font-medium text-[#0B6672]">
+        Cargar logo Print'n Run
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) =>
+            e.target.files?.[0] &&
+            fileToDataUrl(e.target.files[0], setLogoPrint)
+          }
+          className="mt-2 block w-full text-sm"
+        />
+      </label>
+
+      <label className="block text-sm font-medium text-[#0B6672]">
+        Cargar logo del cliente
+        <input
+          type="file"
+          accept="image/*"
+          onChange={(e) =>
+            e.target.files?.[0] &&
+            fileToDataUrl(e.target.files[0], setLogoClient)
+          }
+          className="mt-2 block w-full text-sm"
+        />
+      </label>
     </div>
-  )}
+  </div>
+)}
 
 </aside>
           <main className="space-y-5">
