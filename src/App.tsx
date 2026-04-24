@@ -303,26 +303,24 @@ export default function App() {
   setShareLink(`${baseUrl}?client=true&slug=${encodeURIComponent(slug)}`);
 };
 
-  const showSummary = section === "resumen" || section === "detalle" || clientMode;
-  const showProducts = section === "productos" || section === "galeria" || section === "resumen" || clientMode;
-  const showTracking = section === "pasos" || section === "detalle" || section === "resumen" || clientMode;
-  const listFields: Array<[string, "casosTocados" | "proximosPasos" | "avances"]> = [["Casos tratados", "casosTocados"], ["Próximos pasos", "proximosPasos"], ["Avances actuales", "avances"]];
+const showSummary = section === "resumen" || section === "detalle";
+const showProducts = section === "productos" || section === "galeria" || section === "resumen";
+const showTracking = section === "pasos" || section === "detalle" || section === "resumen";
+const listFields: Array<[string, "casosTocados" | "proximosPasos" | "avances"]> = [["Casos tratados", "casosTocados"], ["Próximos pasos", "proximosPasos"], ["Avances actuales", "avances"]];
 
+if (isLoading) {
   return (
     <div className="min-h-screen bg-[#EFEBE5] p-4 text-[#24343A] md:p-6">
-      <div className="mx-auto max-w-[1500px]">
-<div className="grid grid-cols-1 gap-5 xl:grid-cols-[260px_minmax(0,1fr)]">
-<aside className="flex flex-col gap-4 rounded-2xl border border-[#DED5C8] bg-white p-4 xl:min-h-[920px]">
-  
-  <div className="border-b border-[#E8DED0] pb-4">
-    {logoPrint 
-      ? <img src={logoPrint} alt="Print'n Run" className="h-20 w-auto object-contain" /> 
-      : <div className="text-[#21B2B1] leading-none font-black text-[34px] italic tracking-[-0.06em]">
-          <div>PRINT</div>
-          <div>'N RUN.</div>
+      <div className="mx-auto flex min-h-[80vh] max-w-[1500px] items-center justify-center">
+        <div className="rounded-3xl border border-[#DED5C8] bg-white p-8 text-center shadow-sm">
+          <div className="mx-auto mb-5 h-12 w-12 animate-pulse rounded-full bg-[#2EA6A4]" />
+          <div className="text-xl font-black text-[#083E48]">Cargando minuta</div>
+          <div className="mt-2 text-sm text-[#5B676D]">Estamos preparando la información del cliente.</div>
         </div>
-    }
-  </div>
+      </div>
+    </div>
+  );
+}
 
   <nav className="space-y-2">
   {[
@@ -435,7 +433,6 @@ export default function App() {
 </aside>
           <main className="space-y-5">
             {connectionError && !isClientLink && <div className="rounded-2xl border border-[#F2C2B8] bg-[#FFF3EF] p-4 text-sm font-semibold text-[#A13B2A]">{connectionError}</div>}
-            {isLoading && <div className="rounded-2xl border border-[#E8DED0] bg-white p-4 text-sm font-semibold text-[#0B6672]">Cargando minuta desde Supabase...</div>}
             <header className="rounded-2xl border border-[#DED5C8] bg-white p-6 md:p-8">
               <div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
                 <div className="space-y-5">
