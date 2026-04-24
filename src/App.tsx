@@ -311,8 +311,8 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#EFEBE5] p-4 text-[#24343A] md:p-6">
       <div className="mx-auto max-w-[1500px]">
-<div className="grid grid-cols-1 gap-5 xl:grid-cols-[260px_minmax(0,1fr)]">          {(
-<aside className="flex flex-col gap-4 rounded-2xl border border-[#DED5C8] bg-white p-4 xl:min-h-[920px]">              <div className="border-b border-[#E8DED0] pb-4">
+<div className="grid grid-cols-1 gap-5 xl:grid-cols-[260px_minmax(0,1fr)]">
+  <aside className="flex flex-col gap-4 rounded-2xl border border-[#DED5C8] bg-white p-4 xl:min-h-[920px]">
                 {logoPrint ? <img src={logoPrint} alt="Print'n Run" className="h-20 w-auto object-contain" /> : <div className="text-[#21B2B1] leading-none font-black text-[34px] italic tracking-[-0.06em]"><div>PRINT</div><div>'N RUN.</div></div>}
               </div>
               <nav className="space-y-2">
