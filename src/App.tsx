@@ -179,6 +179,7 @@ export default function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [connectionError, setConnectionError] = React.useState("");
 const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
+  const [minutas, setMinutas] = React.useState<any[]>([]);
   
   const canEdit = !isClientLink && !clientMode && view === "detalle";
 
