@@ -237,54 +237,6 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
     void loadOneMinuta(slugParam);
     return;
   }
-  if (slugParam) {
-    setClientMode(false);
-    setIsClientLink(false);
-    setCurrentSlug(slugParam);
-    setScreen("editor");
-    void loadOneMinuta(slugParam);
-    return;
-  }
-   setClientMode(false);
-  setIsClientLink(false);
-  setScreen("dashboard");
-  void loadList();
-}, []);
-  const loadOneMinuta = async (slug: string) => {
-    setIsLoading(true);
-    setConnectionError("");
-    try {
-      const rows = (await supabaseRequest(
-        `minutas?slug=eq.${encodeURIComponent(slug)}&select=*`
-      )) as SavedMinuta[];
-
-      if (Array.isArray(rows) && rows.length > 0) {
-        const saved = rows[0];
-        if (saved.data?.account) setAccount(saved.data.account);
-        if (saved.data?.logoPrint) setLogoPrint(saved.data.logoPrint);
-        if (saved.data?.logoClient) setLogoClient(saved.data.logoClient);
-        if (saved.updated_at) {
-          setLastSavedAt(new Date(saved.updated_at).toLocaleString());
-        }
-      }
-    } catch (error) {
-      console.error(error);
-      setConnectionError("No se pudo cargar la minuta desde Supabase.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (client === "true" && slugParam) {
-    setClientMode(true);
-    setIsClientLink(true);
-    setView("general");
-    setSection("resumen");
-    setCurrentSlug(slugParam);
-    setScreen("editor");
-    void loadOneMinuta(slugParam);
-    return;
-  }
 
   if (slugParam) {
     setClientMode(false);
