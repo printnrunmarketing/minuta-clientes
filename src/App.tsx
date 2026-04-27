@@ -237,7 +237,6 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
     void loadOneMinuta(slugParam);
     return;
   }
-
   if (slugParam) {
     setClientMode(false);
     setIsClientLink(false);
@@ -246,17 +245,14 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
     void loadOneMinuta(slugParam);
     return;
   }
-
-  setClientMode(false);
+   setClientMode(false);
   setIsClientLink(false);
   setScreen("dashboard");
   void loadList();
 }, []);
-
   const loadOneMinuta = async (slug: string) => {
     setIsLoading(true);
     setConnectionError("");
-
     try {
       const rows = (await supabaseRequest(
         `minutas?slug=eq.${encodeURIComponent(slug)}&select=*`
