@@ -183,45 +183,75 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
   
   const canEdit = !isClientLink && !clientMode && view === "detalle";
 
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    const client = params.get("client");
-    const slugFromUrl = params.get("slug") || DEFAULT_SLUG;
-    setCurrentSlug(slugFromUrl);
-   if (client === "true") {
-  setClientMode(true);
-  setIsClientLink(true);
-  setView("general");
-  setScreen("editor");
-} else {
-  setScreen("dashboard");
-}
-    if (!hasValidSupabaseKey()) {
-      setConnectionError("Falta pegar la Publishable key de Supabase en SUPABASE_PUBLISHABLE_KEY.");
-      return;
+ React.useEffect(() => {
+  if (typeof window === "undefined") return;
+
+  const params = new URLSearchParams(window.location.search);
+  const client = params.get("client");
+  const slugParam = params.get("slug");
+
+  const loadList = async () => {
+    try {
+      const data = await supabaseRequest(
+        "minutas?select=slug,cuenta,updated_at&order=updated_at.desc"
+      );
+      setMinutas(data || []);
+    } catch (error) {
+      console.error(error);
     }
-    const loadMinuta = async () => {
-      setIsLoading(true);
-      setConnectionError("");
-      try {
-        const rows = (await supabaseRequest(`minutas?slug=eq.${encodeURIComponent(slugFromUrl)}&select=*`)) as SavedMinuta[];
-        if (Array.isArray(rows) && rows.length > 0) {
-          const saved = rows[0];
-          if (saved.data?.account) setAccount(saved.data.account);
-          if (saved.data?.logoPrint) setLogoPrint(saved.data.logoPrint);
-          if (saved.data?.logoClient) setLogoClient(saved.data.logoClient);
-          if (saved.updated_at) setLastSavedAt(new Date(saved.updated_at).toLocaleString());
+  };
+
+  const loadOneMinuta = async (slug: string) => {
+    setIsLoading(true);
+    setConnectionError("");
+
+    try {
+      const rows = (await supabaseRequest(
+        `minutas?slug=eq.${encodeURIComponent(slug)}&select=*`
+      )) as SavedMinuta[];
+
+      if (Array.isArray(rows) && rows.length > 0) {
+        const saved = rows[0];
+        if (saved.data?.account) setAccount(saved.data.account);
+        if (saved.data?.logoPrint) setLogoPrint(saved.data.logoPrint);
+        if (saved.data?.logoClient) setLogoClient(saved.data.logoClient);
+        if (saved.updated_at) {
+          setLastSavedAt(new Date(saved.updated_at).toLocaleString());
         }
-      } catch (error) {
-        console.error(error);
-        setConnectionError("No se pudo cargar la minuta desde Supabase. Revisa la Publishable key y las políticas RLS.");
-      } finally {
-        setIsLoading(false);
       }
-    };
-    void loadMinuta();
-  }, []);
+    } catch (error) {
+      console.error(error);
+      setConnectionError("No se pudo cargar la minuta desde Supabase.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (client === "true" && slugParam) {
+    setClientMode(true);
+    setIsClientLink(true);
+    setView("general");
+    setSection("resumen");
+    setCurrentSlug(slugParam);
+    setScreen("editor");
+    void loadOneMinuta(slugParam);
+    return;
+  }
+
+  if (slugParam) {
+    setClientMode(false);
+    setIsClientLink(false);
+    setCurrentSlug(slugParam);
+    setScreen("editor");
+    void loadOneMinuta(slugParam);
+    return;
+  }
+
+  setClientMode(false);
+  setIsClientLink(false);
+  setScreen("dashboard");
+  void loadList();
+}, []);
 
   const metrics = React.useMemo(() => {
     const counts = account.puntosSeguimiento.reduce(
