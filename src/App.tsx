@@ -189,11 +189,14 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
     const client = params.get("client");
     const slugFromUrl = params.get("slug") || DEFAULT_SLUG;
     setCurrentSlug(slugFromUrl);
-    if (client === "true") {
-      setClientMode(true);
-      setIsClientLink(true);
-      setView("general");
-    }
+   if (client === "true") {
+  setClientMode(true);
+  setIsClientLink(true);
+  setView("general");
+  setScreen("editor");
+} else {
+  setScreen("dashboard");
+}
     if (!hasValidSupabaseKey()) {
       setConnectionError("Falta pegar la Publishable key de Supabase en SUPABASE_PUBLISHABLE_KEY.");
       return;
