@@ -48,7 +48,7 @@ type SavedMinuta = {
 const placeholder = "https://placehold.co/900x650/F5F1E8/C62828?text=";
 const SUPABASE_URL = "https://ycacnaklfvikrlrajdli.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_YpynWeGYxFSujT2gxDZ5IA_hWvyKf2E";
-const DEFAULT_SLUG = "alimentos-mary";
+const DEFAULT_SLUG = "";
 
 function hasValidSupabaseKey() {
   if (!SUPABASE_PUBLISHABLE_KEY) return false;
@@ -92,7 +92,7 @@ function makeSlug(value: string) {
 }
 
 const initialAccount: AccountState = {
-  cuenta: "Alimentos Mary",
+  cuenta: "Nueva cuenta",
   estado: "En proceso",
   responsable: "Equipo de ventas · Print'n Run",
   fecha: "23 de mayo de 2026",
@@ -200,6 +200,58 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
       console.error(error);
     }
   };
+
+  const loadOneMinuta = async (slug: string) => {
+    setIsLoading(true);
+    setConnectionError("");
+
+    try {
+      const rows = (await supabaseRequest(
+        `minutas?slug=eq.${encodeURIComponent(slug)}&select=*`
+      )) as SavedMinuta[];
+
+      if (Array.isArray(rows) && rows.length > 0) {
+        const saved = rows[0];
+        if (saved.data?.account) setAccount(saved.data.account);
+        if (saved.data?.logoPrint) setLogoPrint(saved.data.logoPrint);
+        if (saved.data?.logoClient) setLogoClient(saved.data.logoClient);
+        if (saved.updated_at) {
+          setLastSavedAt(new Date(saved.updated_at).toLocaleString());
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      setConnectionError("No se pudo cargar la minuta desde Supabase.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (client === "true" && slugParam) {
+    setClientMode(true);
+    setIsClientLink(true);
+    setView("general");
+    setSection("resumen");
+    setCurrentSlug(slugParam);
+    setScreen("editor");
+    void loadOneMinuta(slugParam);
+    return;
+  }
+
+  if (slugParam) {
+    setClientMode(false);
+    setIsClientLink(false);
+    setCurrentSlug(slugParam);
+    setScreen("editor");
+    void loadOneMinuta(slugParam);
+    return;
+  }
+
+  setClientMode(false);
+  setIsClientLink(false);
+  setScreen("dashboard");
+  void loadList();
+}, []);
 
   const loadOneMinuta = async (slug: string) => {
     setIsLoading(true);
