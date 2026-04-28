@@ -363,6 +363,15 @@ const showSummary = section === "resumen" || section === "detalle";
     className="w-full rounded-xl border border-[#DED5C8] px-4 py-3 text-sm outline-none"
   />
 
+  <div className="mb-6 space-y-3">
+  <input
+    type="text"
+    placeholder="Nombre de la cuenta (ej: Coca-Cola)"
+    value={newAccountName}
+    onChange={(e) => setNewAccountName(e.target.value)}
+    className="w-full rounded-xl border border-[#DED5C8] px-4 py-3 text-sm outline-none"
+  />
+
   <button
     onClick={() => {
       if (!newAccountName.trim()) return;
@@ -372,16 +381,14 @@ const showSummary = section === "resumen" || section === "detalle";
         cuenta: newAccountName
       });
 
-      setCurrentSlug(
-        newAccountName.toLowerCase().replace(/\s+/g, "-")
-      );
-
+      setCurrentSlug(newAccountName.toLowerCase().replace(/\s+/g, "-"));
       setScreen("editor");
     }}
     className="w-full rounded-xl bg-[#2EA6A4] px-5 py-3 text-white font-semibold"
   >
     + Crear nueva cuenta
   </button>
+</div>
 </div>
 
         <div className="space-y-4">
