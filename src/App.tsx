@@ -180,6 +180,7 @@ export default function App() {
   const [connectionError, setConnectionError] = React.useState("");
 const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
   const [minutas, setMinutas] = React.useState<any[]>([]);
+  const [newAccountName, setNewAccountName] = React.useState("");
   
   const canEdit = !isClientLink && !clientMode && view === "detalle";
 
@@ -353,15 +354,35 @@ const showSummary = section === "resumen" || section === "detalle";
           Panel de seguimiento comercial
         </h1>
 
-        <button
-          onClick={() => {
-            setAccount(initialAccount);
-            setScreen("editor");
-          }}
-          className="mb-6 rounded-xl bg-[#2EA6A4] px-5 py-3 text-white font-semibold"
-        >
-          + Crear nueva cuenta
-        </button>
+        <div className="mb-6 space-y-3">
+  <input
+    type="text"
+    placeholder="Nombre de la cuenta (ej: Coca-Cola)"
+    value={newAccountName}
+    onChange={(e) => setNewAccountName(e.target.value)}
+    className="w-full rounded-xl border border-[#DED5C8] px-4 py-3 text-sm outline-none"
+  />
+
+  <button
+    onClick={() => {
+      if (!newAccountName.trim()) return;
+
+      setAccount({
+        ...initialAccount,
+        cuenta: newAccountName
+      });
+
+      setCurrentSlug(
+        newAccountName.toLowerCase().replace(/\s+/g, "-")
+      );
+
+      setScreen("editor");
+    }}
+    className="w-full rounded-xl bg-[#2EA6A4] px-5 py-3 text-white font-semibold"
+  >
+    + Crear nueva cuenta
+  </button>
+</div>
 
         <div className="space-y-4">
           {minutas.length === 0 && (
