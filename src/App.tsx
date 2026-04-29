@@ -425,17 +425,6 @@ if (screen === "dashboard") {
         >
           Ver / Editar
         </button>
-
-        <button
-          onClick={() => {
-            const link = `https://seguimiento-printn-run.vercel.app/?client=true&slug=${m.slug}`;
-            navigator.clipboard.writeText(link);
-            alert("Link cliente copiado.");
-          }}
-          className="rounded-xl border border-[#2EA6A4] bg-white px-4 py-3 text-sm font-semibold text-[#2EA6A4]"
-        >
-          Generar link cliente
-        </button>
       </div>
     </div>
   ))}
