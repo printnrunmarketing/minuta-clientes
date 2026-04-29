@@ -25,13 +25,13 @@ type AccountState = {
   fecha: string;
   ciudad: string;
   objetivo: string;
-  resumen: string;
-  comentariosCliente: string;
-  casosTocados: string[];
-  avances: string[];
-  proximosPasos: string[];
-  puntosSeguimiento: TrackingPoint[];
-  productos: Product[];
+  resumen: "",
+comentariosCliente: "",
+casosTocados: [],
+avances: [],
+proximosPasos: [],
+puntosSeguimiento: [],
+productos: []
 };
 
 type SavedMinuta = {
