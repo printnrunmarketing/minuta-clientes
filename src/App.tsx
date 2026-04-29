@@ -378,17 +378,48 @@ if (screen === "dashboard") {
           />
 
           <button
-            onClick={() => {
-              if (!newAccountName.trim()) return;
+          onClick={async () => {
+  const name = newAccountName.trim();
+  if (!name) return;
 
-              setAccount({
-                ...initialAccount,
-                cuenta: newAccountName,
-              });
+  const slug = makeSlug(name);
 
-              setCurrentSlug(newAccountName.toLowerCase().replace(/\s+/g, "-"));
-              setScreen("editor");
-            }}
+  const newAccount = {
+    ...initialAccount,
+    cuenta: name,
+  };
+
+  setAccount(newAccount);
+  setCurrentSlug(slug);
+
+  try {
+    await supabaseRequest("minutas?on_conflict=slug", {
+      method: "POST",
+      headers: { Prefer: "resolution=merge-duplicates,return=representation" },
+      body: JSON.stringify({
+        slug,
+        cuenta: name,
+        data: {
+          account: newAccount,
+          logoPrint,
+          logoClient,
+        },
+        updated_at: new Date().toISOString(),
+      }),
+    });
+
+    setMinutas((prev) => [
+      { slug, cuenta: name, data: { account: newAccount, logoPrint, logoClient } },
+      ...prev.filter((m) => m.slug !== slug),
+    ]);
+
+    setNewAccountName("");
+    setScreen("editor");
+  } catch (error) {
+    console.error(error);
+    alert("No se pudo crear la cuenta en Supabase.");
+  }
+}}
             className="w-full rounded-xl bg-[#2EA6A4] px-5 py-3 text-white font-semibold"
           >
             + Crear nueva cuenta
