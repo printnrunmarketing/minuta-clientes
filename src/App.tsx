@@ -344,82 +344,57 @@ const showSummary = section === "resumen" || section === "detalle";
   const showTracking = section === "pasos" || section === "detalle" || section === "resumen";
   const listFields: Array<[string, "casosTocados" | "proximosPasos" | "avances"]> = [["Casos tratados", "casosTocados"], ["Próximos pasos", "proximosPasos"], ["Avances actuales", "avances"]];
 
-  if (isLoading) {
    if (screen === "dashboard") {
+ if (isLoading) {
+  return (
+    <div className="min-h-screen bg-[#EFEBE5] p-4 text-[#24343A] md:p-6">
+      <div className="mx-auto flex min-h-[80vh] max-w-[1500px] items-center justify-center">
+        <div className="rounded-3xl border border-[#DED5C8] bg-white p-8 text-center shadow-sm">
+          <div className="mx-auto mb-5 h-12 w-12 animate-pulse rounded-full bg-[#2EA6A4]" />
+          <div className="text-xl font-black text-[#083E48]">Cargando minuta</div>
+          <div className="mt-2 text-sm text-[#5B676D]">Estamos preparando la información del cliente.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+if (screen === "dashboard") {
   return (
     <div className="min-h-screen bg-[#EFEBE5] p-6">
       <div className="mx-auto max-w-[900px]">
-
         <h1 className="text-3xl font-black text-[#083E48] mb-6">
           Panel de seguimiento comercial
         </h1>
 
         <div className="mb-6 space-y-3">
-  <input
-    type="text"
-    placeholder="Nombre de la cuenta (ej: Coca-Cola)"
-    value={newAccountName}
-    onChange={(e) => setNewAccountName(e.target.value)}
-    className="w-full rounded-xl border border-[#DED5C8] px-4 py-3 text-sm outline-none"
-  />
+          <input
+            type="text"
+            placeholder="Nombre de la cuenta (ej: Coca-Cola)"
+            value={newAccountName}
+            onChange={(e) => setNewAccountName(e.target.value)}
+            className="w-full rounded-xl border border-[#DED5C8] px-4 py-3 text-sm outline-none"
+          />
 
-  <div className="mb-6 space-y-3">
-  <input
-    type="text"
-    placeholder="Nombre de la cuenta (ej: Coca-Cola)"
-    value={newAccountName}
-    onChange={(e) => setNewAccountName(e.target.value)}
-    className="w-full rounded-xl border border-[#DED5C8] px-4 py-3 text-sm outline-none"
-  />
+          <button
+            onClick={() => {
+              if (!newAccountName.trim()) return;
 
-  <button
-    onClick={() => {
-      if (!newAccountName.trim()) return;
+              setAccount({
+                ...initialAccount,
+                cuenta: newAccountName,
+              });
 
-      setAccount({
-        ...initialAccount,
-        cuenta: newAccountName
-      });
-
-      setCurrentSlug(newAccountName.toLowerCase().replace(/\s+/g, "-"));
-      setScreen("editor");
-    }}
-    className="w-full rounded-xl bg-[#2EA6A4] px-5 py-3 text-white font-semibold"
-  >
-    + Crear nueva cuenta
-  </button>
-</div>
-</div>
-
-        <div className="space-y-4">
-          {minutas.length === 0 && (
-            <div className="text-sm text-gray-500">
-              No hay cuentas aún
-            </div>
-          )}
-
-          {minutas.map((m) => (
-            <div
-              key={m.slug}
-              className="flex items-center justify-between rounded-xl bg-white p-4 border"
-            >
-              <div>
-                <div className="font-semibold">{m.cuenta}</div>
-                <div className="text-xs text-gray-500">{m.slug}</div>
-              </div>
-
-              <button
-                onClick={() => {
-                  window.location.href = `/?slug=${m.slug}`;
-                }}
-                className="rounded-lg bg-[#083E48] px-4 py-2 text-white text-sm"
-              >
-                Abrir
-              </button>
-            </div>
-          ))}
+              setCurrentSlug(newAccountName.toLowerCase().replace(/\s+/g, "-"));
+              setScreen("editor");
+            }}
+            className="w-full rounded-xl bg-[#2EA6A4] px-5 py-3 text-white font-semibold"
+          >
+            + Crear nueva cuenta
+          </button>
         </div>
 
+        <div>No hay cuentas aún</div>
       </div>
     </div>
   );
