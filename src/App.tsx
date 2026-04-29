@@ -239,19 +239,19 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
     return;
   }
 
-  if (slugParam) {
-    setClientMode(false);
-    setIsClientLink(false);
-    setCurrentSlug(slugParam);
-    setScreen("editor");
-    void loadOneMinuta(slugParam);
-    return;
-  }
-
+ if (slugParam) {
   setClientMode(false);
   setIsClientLink(false);
-  setScreen("dashboard");
-  void loadList();
+  setCurrentSlug(slugParam);
+  setScreen("editor");
+  void loadOneMinuta(slugParam);
+  return;
+}
+
+setClientMode(false);
+setIsClientLink(false);
+setScreen("dashboard");
+void loadList();
 }, []);
 
   const metrics = React.useMemo(() => {
