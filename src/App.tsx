@@ -98,16 +98,13 @@ const initialAccount: AccountState = {
   fecha: "23 de mayo de 2026",
   ciudad: "Caracas, Venezuela",
   objetivo: "Reuniones estratégicas con cuentas clave",
-  resumen: "Seguimiento de oportunidades detectadas durante la reunión, con foco en productos promocionales, ambientación y propuestas de desarrollo alineadas a la marca.",
-  comentariosCliente: "Interés en soluciones promocionales, productos de campaña y desarrollo de piezas funcionales con potencial de visibilidad y recordación de marca.",
-  casosTocados: ["Llaveros sensoriales", "Banderín vehicular", "Rompetráfico", "Uniformes para promotores", "Toallas promocionales", "Contenedores funcionales"],
-  avances: ["Presentación de distintas líneas de producto con enfoque promocional", "Evaluación de piezas de campaña temática 2026", "Identificación de oportunidades para ambientación de puntos de venta"],
-  proximosPasos: ["Consolidar productos priorizados", "Definir volúmenes estimados", "Desarrollar propuestas ajustadas por línea"],
-  puntosSeguimiento: [
-    { titulo: "Llaveros sensoriales", estado: "En proceso", nota: "Pendiente de validación visual y definición de cantidades.", fechaLimite: "27/may/2026", responsable: "Equipo comercial", prioridad: "Alta" },
-    { titulo: "Banderín vehicular", estado: "En avance", nota: "Propuesta presentada y en revisión interna.", fechaLimite: "30/may/2026", responsable: "Diseño y ventas", prioridad: "Media" },
-    { titulo: "Rompetráfico", estado: "Pendiente", nota: "A la espera de confirmación para siguiente fase.", fechaLimite: "03/jun/2026", responsable: "Producción", prioridad: "Alta" }
-  ],
+ resumen: "",
+comentariosCliente: ""
+  casosTocados: [],
+avances: [],
+proximosPasos: [],
+puntosSeguimiento: [],
+productos: []
   productos: [
     { nombre: "Llaveros sensoriales", descripcion: "Propuesta promocional con alto potencial de recordación de marca.", imagen: `${placeholder}Llaveros+sensoriales` },
     { nombre: "Banderín vehicular", descripcion: "Solución de visibilidad para exterior y activaciones móviles.", imagen: `${placeholder}Banderin+vehicular` },
@@ -456,6 +453,27 @@ if (screen === "dashboard") {
         >
           Ver / Editar
         </button>
+        <button
+  onClick={async () => {
+    const confirmar = window.confirm(`¿Eliminar la cuenta "${m.cuenta}"?`);
+    if (!confirmar) return;
+
+    try {
+      await supabaseRequest(`minutas?slug=eq.${encodeURIComponent(m.slug)}`, {
+        method: "DELETE",
+      });
+
+      setMinutas((prev) => prev.filter((item) => item.slug !== m.slug));
+      alert("Cuenta eliminada.");
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo eliminar la cuenta.");
+    }
+  }}
+  className="rounded-xl border border-[#C62828] bg-white px-4 py-3 text-sm font-semibold text-[#C62828]"
+>
+  Eliminar
+</button>
       </div>
     </div>
   ))}
@@ -592,7 +610,7 @@ if (screen === "dashboard") {
             {!isClientLink && (
               <footer className="flex flex-col gap-2 rounded-2xl bg-[#2EA6A4] px-6 py-5 text-white md:flex-row md:items-center md:justify-between">
                 <div>{clientMode ? "Modo cliente activo para revisión interna." : "Esta minuta es editable. Todo cambio actualiza métricas, tarjetas y gráfica."}</div>
-                <div className="font-semibold">Print'n Run - Soluciones que dejan marca.</div>
+                <div className="font-semibold">Print'n Run - Soluciones Creativas.</div>
               </footer>
             )}
           </main>
