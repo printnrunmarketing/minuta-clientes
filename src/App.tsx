@@ -98,13 +98,13 @@ const initialAccount: AccountState = {
   fecha: "23 de mayo de 2026",
   ciudad: "Caracas, Venezuela",
   objetivo: "Reuniones estratégicas con cuentas clave",
- resumen: "",
-comentariosCliente: ""
-  casosTocados: [],
+resumen: "",
+comentariosCliente: "",
+casosTocados: [],
 avances: [],
 proximosPasos: [],
 puntosSeguimiento: [],
-productos: []
+productos: [],
   productos: [
     { nombre: "Llaveros sensoriales", descripcion: "Propuesta promocional con alto potencial de recordación de marca.", imagen: `${placeholder}Llaveros+sensoriales` },
     { nombre: "Banderín vehicular", descripcion: "Solución de visibilidad para exterior y activaciones móviles.", imagen: `${placeholder}Banderin+vehicular` },
