@@ -105,11 +105,8 @@ avances: [],
 proximosPasos: [],
 puntosSeguimiento: [],
 productos: [],
-  productos: [
-    { nombre: "Llaveros sensoriales", descripcion: "Propuesta promocional con alto potencial de recordación de marca.", imagen: `${placeholder}Llaveros+sensoriales` },
-    { nombre: "Banderín vehicular", descripcion: "Solución de visibilidad para exterior y activaciones móviles.", imagen: `${placeholder}Banderin+vehicular` },
-    { nombre: "Rompetráfico", descripcion: "Elemento de impacto visual para punto de venta.", imagen: `${placeholder}Rompetráfico` }
-  ]
+productos: []
+    
 };
 
 const newPoint = (): TrackingPoint => ({ titulo: "Nuevo punto", estado: "Pendiente", nota: "Agregar detalle del seguimiento.", fechaLimite: "Sin definir", responsable: "Por asignar", prioridad: "Media" });
