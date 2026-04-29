@@ -394,7 +394,51 @@ if (screen === "dashboard") {
           </button>
         </div>
 
-        <div>No hay cuentas aún</div>
+        <div className="space-y-4">
+  {minutas.length === 0 && (
+    <div className="rounded-xl border border-[#DED5C8] bg-white p-4 text-sm text-[#5B676D]">
+      No hay cuentas aún
+    </div>
+  )}
+
+  {minutas.map((m) => (
+    <div
+      key={m.slug}
+      className="flex flex-col gap-4 rounded-2xl border border-[#DED5C8] bg-white p-5 md:flex-row md:items-center md:justify-between"
+    >
+      <div>
+        <div className="text-lg font-black text-[#083E48]">
+          {m.cuenta}
+        </div>
+        <div className="text-xs text-[#6B767B]">
+          {m.slug}
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2 md:flex-row">
+        <button
+          onClick={() => {
+            window.location.href = `/?slug=${m.slug}`;
+          }}
+          className="rounded-xl bg-[#2EA6A4] px-4 py-3 text-sm font-semibold text-white"
+        >
+          Ver / Editar
+        </button>
+
+        <button
+          onClick={() => {
+            const link = `https://seguimiento-printn-run.vercel.app/?client=true&slug=${m.slug}`;
+            navigator.clipboard.writeText(link);
+            alert("Link cliente copiado.");
+          }}
+          className="rounded-xl border border-[#2EA6A4] bg-white px-4 py-3 text-sm font-semibold text-[#2EA6A4]"
+        >
+          Generar link cliente
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
       </div>
     </div>
   );
