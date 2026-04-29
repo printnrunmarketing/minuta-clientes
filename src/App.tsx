@@ -343,9 +343,8 @@ const showSummary = section === "resumen" || section === "detalle";
   const showProducts = section === "productos" || section === "galeria" || section === "resumen";
   const showTracking = section === "pasos" || section === "detalle" || section === "resumen";
   const listFields: Array<[string, "casosTocados" | "proximosPasos" | "avances"]> = [["Casos tratados", "casosTocados"], ["Próximos pasos", "proximosPasos"], ["Avances actuales", "avances"]];
-
-   if (screen === "dashboard") {
- if (isLoading) {
+ 
+  if (isLoading) {
   return (
     <div className="min-h-screen bg-[#EFEBE5] p-4 text-[#24343A] md:p-6">
       <div className="mx-auto flex min-h-[80vh] max-w-[1500px] items-center justify-center">
@@ -358,6 +357,8 @@ const showSummary = section === "resumen" || section === "detalle";
     </div>
   );
 }
+  
+   if (screen === "dashboard") {
 
 if (screen === "dashboard") {
   return (
