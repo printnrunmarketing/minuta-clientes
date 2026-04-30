@@ -450,6 +450,9 @@ const newAccount = {
         <div className="text-xs text-[#6B767B]">
           {m.slug}
         </div>
+        <div className="text-xs font-semibold text-[#2EA6A4]">
+  {m.data?.account?.vendedor || "Sin vendedor"}
+</div>
       </div>
 
       <div className="flex flex-col gap-2 md:flex-row">
