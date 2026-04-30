@@ -440,13 +440,15 @@ const newAccount = {
 
 {minutas
   .filter((m) => {
-    const vendedorActual = vendedor.trim().toLowerCase();
-    const vendedorCuenta = (m.data?.account?.vendedor || "").trim().toLowerCase();
+  const vendedorActual = vendedor.trim().toLowerCase();
+  const vendedorCuenta = (m.data?.account?.vendedor || "").trim().toLowerCase();
 
-    if (!vendedorActual) return false;
+  if (!vendedorActual) return false;
 
-    return vendedorCuenta === vendedorActual;
-  })
+  if (vendedorActual === "master") return true;
+
+  return vendedorCuenta === vendedorActual;
+})
   .map((m) => (
     <div
       key={m.slug}
