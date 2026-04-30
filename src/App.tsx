@@ -22,16 +22,17 @@ type AccountState = {
   cuenta: string;
   estado: TrackingStatus;
   responsable: string;
+  vendedor: string;
   fecha: string;
   ciudad: string;
   objetivo: string;
-  resumen: "",
-comentariosCliente: "",
-casosTocados: [],
-avances: [],
-proximosPasos: [],
-puntosSeguimiento: [],
-productos: []
+  resumen: string;
+  comentariosCliente: string;
+  casosTocados: string[];
+  avances: string[];
+  proximosPasos: string[];
+  puntosSeguimiento: TrackingPoint[];
+  productos: Product[];
 };
 
 type SavedMinuta = {
@@ -95,6 +96,7 @@ const initialAccount: AccountState = {
   cuenta: "Nueva cuenta",
   estado: "En proceso",
   responsable: "Equipo de ventas · Print'n Run",
+  vendedor: "",
   fecha: "23 de mayo de 2026",
   ciudad: "Caracas, Venezuela",
   objetivo: "Reuniones estratégicas con cuentas clave",
@@ -175,6 +177,7 @@ export default function App() {
 const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
   const [minutas, setMinutas] = React.useState<any[]>([]);
   const [newAccountName, setNewAccountName] = React.useState("");
+  const [vendedor, setVendedor] = React.useState("");
   
   const canEdit = !isClientLink && !clientMode && view === "detalle";
 
@@ -364,6 +367,13 @@ if (screen === "dashboard") {
 
         <div className="mb-6 space-y-3">
           <input
+  type="text"
+  placeholder="Nombre del vendedor"
+  value={vendedor}
+  onChange={(e) => setVendedor(e.target.value)}
+  className="w-full rounded-xl border border-[#DED5C8] px-4 py-3 text-sm outline-none"
+/>
+          <input
             type="text"
             placeholder="Nombre de la cuenta (ej: Coca-Cola)"
             value={newAccountName}
@@ -378,10 +388,11 @@ if (screen === "dashboard") {
 
   const slug = makeSlug(name);
 
-  const newAccount = {
-    ...initialAccount,
-    cuenta: name,
-  };
+const newAccount = {
+  ...initialAccount,
+  cuenta: name,
+  vendedor,
+};
 
   setAccount(newAccount);
   setCurrentSlug(slug);
