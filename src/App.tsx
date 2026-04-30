@@ -191,7 +191,7 @@ const [screen, setScreen] = React.useState<"dashboard" | "editor">("dashboard");
   const loadList = async () => {
     try {
       const data = await supabaseRequest(
-        "minutas?select=slug,cuenta,updated_at&order=updated_at.desc"
+       "minutas?select=slug,cuenta,data,updated_at&order=updated_at.desc"
       );
       setMinutas(data || []);
     } catch (error) {
@@ -438,11 +438,21 @@ const newAccount = {
     </div>
   )}
 
-  {minutas.map((m) => (
+{minutas
+  .filter((m) => {
+    const vendedorActual = vendedor.trim().toLowerCase();
+    const vendedorCuenta = (m.data?.account?.vendedor || "").trim().toLowerCase();
+
+    if (!vendedorActual) return false;
+
+    return vendedorCuenta === vendedorActual;
+  })
+  .map((m) => (
     <div
       key={m.slug}
       className="flex flex-col gap-4 rounded-2xl border border-[#DED5C8] bg-white p-5 md:flex-row md:items-center md:justify-between"
     >
+ 
       <div>
         <div className="text-lg font-black text-[#083E48]">
           {m.cuenta}
